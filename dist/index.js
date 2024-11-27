@@ -270,12 +270,12 @@ async function getChangesSinceMergeBase(base, head, initialFetchDepth) {
         baseRef = await getLocalRef(base);
         headRef = await getLocalRef(head);
         if (!(await hasMergeBase())) {
-            await (0, exec_1.getExecOutput)('git', ['fetch', '--no-tags', `--depth=${initialFetchDepth}`, 'origin', base, head]);
+            await (0, exec_1.getExecOutput)('git', ['fetch', '--no-tags', '--no-recurse-submodules', `--depth=${initialFetchDepth}`, 'origin', base, head]);
             if (baseRef === undefined || headRef === undefined) {
                 baseRef = baseRef !== null && baseRef !== void 0 ? baseRef : (await getLocalRef(base));
                 headRef = headRef !== null && headRef !== void 0 ? headRef : (await getLocalRef(head));
                 if (baseRef === undefined || headRef === undefined) {
-                    await (0, exec_1.getExecOutput)('git', ['fetch', '--tags', '--depth=1', 'origin', base, head], {
+                    await (0, exec_1.getExecOutput)('git', ['fetch', '--tags', '--no-recurse-submodules', '--depth=1', 'origin', base, head], {
                         ignoreReturnCode: true // returns exit code 1 if tags on remote were updated - we can safely ignore it
                     });
                     baseRef = baseRef !== null && baseRef !== void 0 ? baseRef : (await getLocalRef(base));
